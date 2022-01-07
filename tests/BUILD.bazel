@@ -1,0 +1,33 @@
+load(":use_meta.bzl", "cc_17_library", "cc_opt_binary", "cc_dbg_test")
+
+cc_17_library(
+    name = "lib_with_cc17",
+    srcs = ["main.cc"],
+)
+
+cc_binary(
+    name = "main_with_cc17",
+    deps = [":lib_with_cc17"],
+)
+
+cc_opt_binary(
+    name = "opt_main",
+    srcs = ["main.cc"],
+    copts = select({
+        "@platforms//os:windows": ["/std:c++17"],
+        "//conditions:default": ["-std=c++17"],
+    }),
+)
+
+cc_dbg_test(
+    name = "dbg_test",
+    deps = [":lib_with_cc17"],
+)
+
+cc_dbg_test(
+    name = "dbg_test_env",
+    srcs = ["test.cc"],
+    env = {
+        "FOO": "BAR",
+    },
+)
