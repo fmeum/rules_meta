@@ -49,6 +49,11 @@ jobs:
           USE_BAZEL_VERSION: ${{ matrix.bazel }}
         run: bazelisk test --disk_cache=${{ matrix.cache }} ${{ matrix.bazel_extra_args }} //...
 
+      - name: Print local_config_cc/BUILD
+        if: ${{ always() && matrix.os == 'macos-latest' }}
+        working-directory: ./tests
+        run: cat $(bazelisk info output_base)/external/local_config_cc/BUILD
+
       - name: Upload test logs
         if: always()
         uses: actions/upload-artifact@v2
