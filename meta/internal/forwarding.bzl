@@ -9,7 +9,10 @@ def transition_and_forward_providers_factory(
     rule_attrs = dict(attrs)
     rule_attrs.update({
         "env": attr.string_dict(),
-        "target": attr.label(
+        # This attribute name is internal only, so it can only help to choose a
+        # name that is treated as a dependency attribute by the IntelliJ plugin:
+        # https://github.com/bazelbuild/intellij/blob/11acaac819346f74e930c47594f37d81e274efb1/aspect/intellij_info_impl.bzl#L29
+        "exports": attr.label(
             cfg = transition,
             executable = executable,
         ),
@@ -32,7 +35,7 @@ def transition_and_forward_providers_factory(
 
 def _transition_and_forward_providers_impl_factory(extra_providers = []):
     def _transition_and_forward_providers_impl(ctx):
-        target = ctx.attr.target[0]
+        target = ctx.attr.exports[0]
         providers = [target[p] for p in NATIVE_PROVIDERS + extra_providers if p in target]
 
         default_info = target[DefaultInfo]

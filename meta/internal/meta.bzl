@@ -110,7 +110,7 @@ def wrap_with_transition(
         _apply_transition_rule(
             name = name,
             env = wrapper_env,
-            target = ":" + orig_name,
+            exports = ":" + orig_name,
             tags = tags,
             testonly = testonly,
             visibility = visibility,
