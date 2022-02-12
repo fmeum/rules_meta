@@ -20,6 +20,9 @@ def is_select(value):
 def is_string(value):
     return type(value) == _STRING_TYPE
 
+def is_struct(value):
+    return type(value) == _STRUCT_TYPE
+
 # Extracted from https://docs.bazel.build/versions/5.0.0/skylark/lib/skylark-provider.html
 NATIVE_PROVIDERS = [
     CcInfo,
@@ -36,7 +39,18 @@ NATIVE_PROVIDERS = [
     PyRuntimeInfo,
 ]
 
+REPLACE_ONLY_LIST_COMMAND_LINE_OPTIONS = [
+    "catalyst_cpus",
+    "fat_apk_cpu",
+    "ios_multi_cpus",
+    "macos_cpus",
+    "platforms",
+    "tvos_cpus",
+    "watchos_cpus",
+]
+
 _DICT_TYPE = type({})
 _LIST_TYPE = type([])
 _SELECT_TYPE = type(select({"//conditions:default": True}))
 _STRING_TYPE = type("")
+_STRUCT_TYPE = type(struct())

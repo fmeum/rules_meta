@@ -1,3 +1,3 @@
-load("//meta/internal:meta.bzl", _wrap_with_transition = "wrap_with_transition")
+load("//meta/internal:meta.bzl", _meta = "meta")
 
-wrap_with_transition = _wrap_with_transition
+meta = _meta

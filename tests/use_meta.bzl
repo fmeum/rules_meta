@@ -1,6 +1,6 @@
-load("//meta:defs.bzl", "wrap_with_transition")
+load("//meta:defs.bzl", "meta")
 
-cc_17_library = wrap_with_transition(
+cc_17_library = meta.wrap_with_transition(
     native.cc_library,
     {
         "cxxopt": {
@@ -10,7 +10,7 @@ cc_17_library = wrap_with_transition(
     },
 )
 
-cc_opt_binary = wrap_with_transition(
+cc_opt_binary = meta.wrap_with_transition(
     native.cc_binary,
     {
         "compilation_mode": "opt",
@@ -18,7 +18,7 @@ cc_opt_binary = wrap_with_transition(
     executable = True,
 )
 
-cc_dbg_test = wrap_with_transition(
+cc_dbg_test = meta.wrap_with_transition(
     native.cc_test,
     {
         "compilation_mode": "dbg",
@@ -26,4 +26,12 @@ cc_dbg_test = wrap_with_transition(
         "dynamic_mode": "off",
     },
     test = True,
+)
+
+cc_host_binary = meta.wrap_with_transition(
+    native.cc_binary,
+    {
+        "platforms": meta.replace_with(["@local_config_platform//:host"]),
+    },
+    executable = True,
 )

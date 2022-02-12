@@ -1,4 +1,4 @@
-load(":use_meta.bzl", "cc_17_library", "cc_opt_binary", "cc_dbg_test")
+load(":use_meta.bzl", "cc_17_library", "cc_host_binary", "cc_opt_binary", "cc_dbg_test")
 
 cc_17_library(
     name = "lib_with_cc17",
@@ -12,6 +12,15 @@ cc_binary(
 
 cc_opt_binary(
     name = "opt_main",
+    srcs = ["main.cc"],
+    copts = select({
+        "@platforms//os:windows": ["/std:c++17"],
+        "//conditions:default": ["-std=c++17"],
+    }),
+)
+
+cc_host_binary(
+    name = "host_main",
     srcs = ["main.cc"],
     copts = select({
         "@platforms//os:windows": ["/std:c++17"],
