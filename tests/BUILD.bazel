@@ -36,6 +36,7 @@ cc_dbg_test(
 cc_dbg_test(
     name = "dbg_test_env",
     srcs = ["test.cc"],
+    args = ["some_arg"],
     env = {
         "FOO": "BAR",
     },
