@@ -22,8 +22,6 @@ cc_dbg_test = meta.wrap_with_transition(
     native.cc_test,
     {
         "compilation_mode": "dbg",
-        # Workaround for https://github.com/bazelbuild/bazel/issues/13819.
-        "dynamic_mode": "off",
     },
     test = True,
 )
