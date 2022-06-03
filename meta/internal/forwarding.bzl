@@ -9,6 +9,7 @@ def transition_and_forward_providers_factory(
     rule_attrs = dict(attrs)
     rule_attrs.update({
         "env": attr.string_dict(),
+        "env_inherit": attr.string_list(),
         # This attribute name is internal only, so it can only help to choose a
         # name that is treated as a dependency attribute by the IntelliJ plugin:
         # https://github.com/bazelbuild/intellij/blob/11acaac819346f74e930c47594f37d81e274efb1/aspect/intellij_info_impl.bzl#L29
@@ -67,12 +68,22 @@ def _transition_and_forward_providers_impl_factory(extra_providers = []):
                 ),
             )
 
+        env = None
+        env_inherit = None
         if ctx.attr.env:
-            expanded_env = {
+            env = {
                 key: ctx.expand_make_variables("env", value, {})
                 for key, value in ctx.attr.env.items()
             }
-            providers.append(testing.TestEnvironment(expanded_env))
+        if ctx.attr.env_inherit:
+            env_inherit = ctx.attr.env_inherit
+        if env or env_inherit:
+            providers.append(
+                RunEnvironmentInfo(
+                    environment = env,
+                    inherit_environment = env_inherit,
+                )
+            )
 
         return providers
 
