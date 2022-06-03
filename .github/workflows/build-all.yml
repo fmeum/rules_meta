@@ -16,7 +16,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        bazel: [5.0.0, last_green]
+        bazel: [6.0.0-pre.20220517.1, last_green]
         os: [ubuntu-latest, macos-latest, windows-latest]
         include:
           - os: ubuntu-latest
@@ -47,6 +47,7 @@ jobs:
       - name: Test all
         env:
           USE_BAZEL_VERSION: ${{ matrix.bazel }}
+          INHERITED: INHERITED_VALUE
         run: bazelisk test --disk_cache=${{ matrix.cache }} ${{ matrix.bazel_extra_args }} //...
 
       - name: Print local_config_cc/BUILD

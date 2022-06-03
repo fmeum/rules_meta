@@ -33,6 +33,7 @@ NATIVE_PROVIDERS = [
     JavaPluginInfo,
     OutputGroupInfo,
     ProtoInfo,
+    RunEnvironmentInfo,
     # No longer available with last_green.
     # ProtoToolchainInfo,
     PyInfo,
