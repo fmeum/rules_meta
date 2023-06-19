@@ -1,0 +1,2 @@
+common --enable_bzlmod
+common --lockfile_mode=update

@@ -1,3 +1,21 @@
+def value_from_select(select):
+    s = str(select)
+    pos = 0
+    if s.startswith("select({"):
+        pos += len("select({")
+        if s.startswith("Label("):
+            pos += len("Label(")
+
+    c = s[0]
+    if c == "[":
+        return _LIST_TYPE
+    elif c == "{":
+        return _DICT_TYPE
+    elif c == "\"":
+        return _STRING_TYPE
+    print(s)
+    return _STRING_TYPE
+
 def attr_from_value(value):
     if is_dict(value):
         value = value.values()[0]
