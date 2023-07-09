@@ -1,5 +1,7 @@
-def value_from_select(select):
-    s = str(select)
+def get_attr_type(value):
+    if not is_select(value):
+        return None
+    s = str(value)
     pos = 0
     if s.startswith("select({"):
         pos += len("select({")
