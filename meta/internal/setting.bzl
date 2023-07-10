@@ -29,5 +29,37 @@ def get_attr_name(setting):
         fail("Expected Label or string, got: {} ({})".format(setting, type(setting)))
 
 def get_attr_type(value):
-    # TODO
-    return "string_list"
+    s = str(value)
+    pos = 0
+
+    # In a select, skip over the first key to the first value.
+    if is_select(value):
+        pos += len("select({")
+        if s.startswith("Label(", pos):
+            pos += len("Label(")
+
+        # Skip over the string.
+        if s[pos] != "\"":
+            fail("Failed to parse select value: {}".format(s))
+        pos += 1
+        for _ in range(pos, len(s)):
+            c = s[pos]
+            pos += 1
+            if c == "\\":
+                # Skip over the escaped character.
+                pos += 1
+            elif c == "\"":
+                break
+
+        if s.startswith("): ", pos):
+            pos += len("): ")
+        elif s.startswith(": ", pos):
+            pos += len(") ")
+
+    suffix = ""
+    if s[pos] == "[":
+        pos += 1
+        suffix = "_list"
+
+    if s[pos] == "\"":
+        return "string" + suffix

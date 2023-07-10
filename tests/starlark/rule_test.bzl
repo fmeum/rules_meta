@@ -2,33 +2,6 @@ load("@rules_testing//lib:test_suite.bzl", "test_suite")
 load("@rules_testing//lib:unit_test.bzl", "unit_test")
 load("//meta/internal:rule.bzl", "get_rule_name", "is_executable", "is_test")
 
-#def _get_attr_type_test(env):
-#    env.expect.that_str(get_attr_type(select({"//conditions:default": "foo\"bar"}))).equals(type(""))
-#
-#    asserts.equals(env, value_from_select(select({"bar": ""})), type(""))
-#    asserts.equals(env, value_from_select(select({Label("@foo//:bar"): ""})), type(""))
-
-#    asserts.equals(env, value_from_select(select({"//conditions:default": []})), type([]))
-#    asserts.equals(env, value_from_select(select({"bar": []})), type([]))
-#    asserts.equals(env, value_from_select(select({Label("@foo//:bar"): []})), type([]))
-#
-#    asserts.equals(env, value_from_select(["foo"] + select({"//conditions:default": ["bar"]})), type([]))
-#    asserts.equals(env, value_from_select(["foo"] + select({"bar": ["bar"]})), type([]))
-#    asserts.equals(env, value_from_select(["foo"] + select({Label("@foo//:bar"): []})), type([]))
-#
-#    asserts.equals(env, value_from_select(select({"//conditions:default": {}})), type({}))
-#    asserts.equals(env, value_from_select(select({"bar": {}})), type({}))
-#    asserts.equals(env, value_from_select(select({Label("@foo//:bar"): {}})), type({}))
-#
-#    asserts.equals(env, value_from_select({"foo": "bar"} | select({"//conditions:default": {}})), type({}))
-#    asserts.equals(env, value_from_select({"foo": "bar"} | select({"bar": {}})), type({}))
-#    asserts.equals(env, value_from_select({"foo": "bar"} | select({Label("@foo//:bar"): {}})), type({}))
-#
-#    asserts.equals(env, value_from_select(select({"//conditions:default": 1})), type(1))
-#    asserts.equals(env, value_from_select(select({"bar": -2})), type(-2))
-#    asserts.equals(env, value_from_select(select({Label("@foo//:bar"): 3})), type(3))
-#    return unittest.end(env)
-
 def _noop_impl(ctx):
     pass
 

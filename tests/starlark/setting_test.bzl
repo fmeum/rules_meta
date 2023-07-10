@@ -7,6 +7,7 @@ def _get_attr_type_test(env):
         return env.expect.where(expression = str(expr)).that_str(get_attr_type(expr))
 
     make_subject(select({"//conditions:default": "foo\"bar"})).equals("string")
+    make_subject(select({"//conditions:default": ["foo\"bar"]})).equals("string_list")
 
 #    asserts.equals(env, value_from_select(select({"bar": ""})), type(""))
 #    asserts.equals(env, value_from_select(select({Label("@foo//:bar"): ""})), type(""))
