@@ -34,6 +34,9 @@ def is_dict(value):
 def is_list(value):
     return type(value) == _LIST_TYPE
 
+def is_label(value):
+    return type(value) == _LABEL_TYPE
+
 def is_select(value):
     return type(value) == _SELECT_TYPE
 
@@ -71,6 +74,7 @@ REPLACE_ONLY_LIST_COMMAND_LINE_OPTIONS = [
 ]
 
 _DICT_TYPE = type({})
+_LABEL_TYPE = type(Label("//:bogus"))
 _LIST_TYPE = type([])
 _SELECT_TYPE = type(select({"//conditions:default": True}))
 _STRING_TYPE = type("")
