@@ -1,4 +1,4 @@
-load(":rule_defaults.bzl", "DEFAULT_PROVIDERS", "EXTRA_EXECUTABLES", "EXTRA_TESTS", "IMPLICIT_TARGETS")
+load(":rule_defaults.bzl", "DEFAULT_PROVIDERS", "IMPLICIT_TARGETS")
 
 visibility("//tests/...")
 
@@ -38,14 +38,10 @@ def get_rule_name(rule_or_macro):
         fail("Not a rule or macro: " + s)
 
 def is_executable(rule_name):
-    if rule_name.endswith("_binary"):
-        return True
-    return EXTRA_EXECUTABLES.get(rule_name, False)
+    return rule_name.endswith("_binary")
 
 def is_test(rule_name):
-    if rule_name.endswith("_test"):
-        return True
-    return EXTRA_TESTS.get(rule_name, False)
+    return rule_name.endswith("_test")
 
 def get_implicit_targets(rule_name):
     return IMPLICIT_TARGETS.get(rule_name, [])

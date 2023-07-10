@@ -8,12 +8,5 @@ DEFAULT_PROVIDERS = [
     RunEnvironmentInfo,
 ]
 
-EXTRA_EXECUTABLES = {
-}
-
-EXTRA_TESTS = {
-    "cc_test_wrapper": True,
-}
-
 IMPLICIT_TARGETS = {
 }
