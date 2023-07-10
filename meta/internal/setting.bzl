@@ -29,11 +29,16 @@ def get_attr_name(setting):
         fail("Expected Label or string, got: {} ({})".format(setting, type(setting)))
 
 def get_attr_type(value):
+    if is_string(value):
+        return "string"
+    if is_label(value):
+        return "label"
+
     s = str(value)
     pos = 0
 
     # In a select, skip over the first key to the first value.
-    if is_select(value):
+    if s.startswith("select({", pos):
         pos += len("select({")
         if s.startswith("Label(", pos):
             pos += len("Label(")
@@ -61,5 +66,11 @@ def get_attr_type(value):
         pos += 1
         suffix = "_list"
 
+    if s.startswith("Label(", pos):
+        return "label" + suffix
     if s[pos] == "\"":
         return "string" + suffix
+    if s[pos] == "-" or s[pos].isdigit():
+        return "int" + suffix
+
+    fail("Failed to determine type of: {}".format(s))
