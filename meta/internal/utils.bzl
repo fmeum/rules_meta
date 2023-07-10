@@ -28,6 +28,9 @@ def attr_from_value(value):
     else:
         fail("Unsupported type for setting value: %s" % type(value))
 
+def is_bool(value):
+    return type(value) == _BOOL_TYPE
+
 def is_dict(value):
     return type(value) == _DICT_TYPE
 
@@ -73,6 +76,7 @@ REPLACE_ONLY_LIST_COMMAND_LINE_OPTIONS = [
     "watchos_cpus",
 ]
 
+_BOOL_TYPE = type(True)
 _DICT_TYPE = type({})
 _LABEL_TYPE = type(Label("//:bogus"))
 _LIST_TYPE = type([])

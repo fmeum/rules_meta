@@ -1,4 +1,4 @@
-load(":utils.bzl", "is_label", "is_select", "is_string")
+load(":utils.bzl", "is_bool", "is_label", "is_select", "is_string")
 
 def add_set_setting(builder, *, setting, value):
     attr_name = get_attr_name(setting)
@@ -33,6 +33,8 @@ def get_attr_type(value):
         return "string"
     if is_label(value):
         return "label"
+    if is_bool(value):
+        return "bool"
 
     s = str(value)
     pos = 0
@@ -72,5 +74,9 @@ def get_attr_type(value):
         return "string" + suffix
     if s[pos] == "-" or s[pos].isdigit():
         return "int" + suffix
+    if s.startswith("True", pos) and not s[pos + len("True")].isalnum():
+        return "bool"
+    if s.startswith("False", pos) and not s[pos + len("False")].isalnum():
+        return "bool"
 
     fail("Failed to determine type of: {}".format(s))

@@ -3,6 +3,22 @@ load("@rules_testing//lib:unit_test.bzl", "unit_test")
 load("//meta/internal:setting.bzl", "get_attr_name", "get_attr_type")
 
 _GET_ATTR_TYPE_TEST_CASES = [
+    (True, "bool"),
+    (select({"//conditions:default": True}), "bool"),
+    (select({Label("//conditions:default"): True}), "bool"),
+    (False, "bool"),
+    (select({"//conditions:default": False}), "bool"),
+    (select({Label("//conditions:default"): False}), "bool"),
+    (1234, "int"),
+    (select({"//conditions:default": 65}), "int"),
+    (select({Label("//conditions:default"): 5678}), "int"),
+    (-1234, "int"),
+    (select({"//conditions:default": -65}), "int"),
+    (select({Label("//conditions:default"): -5678}), "int"),
+    ([-1234, 5], "int_list"),
+    (select({"//conditions:default": [65, 7]}), "int_list"),
+    (select({Label("//conditions:default"): [-5678, 8]}), "int_list"),
+    ([5] + select({"//conditions:default": [65, 7]}), "int_list"),
     ("foo", "string"),
     (select({"//conditions:default": "foo\"bar"}), "string"),
     (select({Label("//conditions:default"): "foo\"bar"}), "string"),
