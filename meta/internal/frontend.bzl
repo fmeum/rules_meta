@@ -16,7 +16,7 @@ def _frontend_impl(ctx):
     return [
         DefaultInfo(
             files = target[DefaultInfo].files,
-            data_runfiles = target[DefaultInfo].files,
+            data_runfiles = target[DefaultInfo].data_runfiles,
             default_runfiles = target[DefaultInfo].default_runfiles,
         ),
     ] + [
