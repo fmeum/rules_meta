@@ -49,21 +49,21 @@ def is_string(value):
 def is_struct(value):
     return type(value) == _STRUCT_TYPE
 
-# Extracted from https://docs.bazel.build/versions/5.0.0/skylark/lib/skylark-provider.html
+# Extracted from https://bazel.build/rules/lib/providers
 NATIVE_PROVIDERS = [
+    AnalysisTestResultInfo,
     CcInfo,
     CcToolchainConfigInfo,
     DebugPackageInfo,
     InstrumentedFilesInfo,
-    JavaInfo,
-    JavaPluginInfo,
     OutputGroupInfo,
-    ProtoInfo,
-    RunEnvironmentInfo,
-    # No longer available with last_green.
-    # ProtoToolchainInfo,
     PyInfo,
     PyRuntimeInfo,
+    RunEnvironmentInfo,
+    platform_common.TemplateVariableInfo,
+    platform_common.ToolchainInfo,
+    apple_common.XcodeProperties,
+    apple_common.XcodeVersionConfig,
 ]
 
 REPLACE_ONLY_LIST_COMMAND_LINE_OPTIONS = [

@@ -1,6 +1,8 @@
+load(":builder.bzl", "make_builder")
+load(":common.bzl", "RuleInfo")
 load(":rule_defaults.bzl", "DEFAULT_PROVIDERS", "IMPLICIT_TARGETS")
 
-visibility("//tests/...")
+visibility(["//meta", "//tests/..."])
 
 def rule(
         rule_or_macro,
@@ -18,13 +20,14 @@ def rule(
     if implicit_targets == None:
         implicit_targets = get_implicit_targets(rule_name)
 
-    return struct(
-        rule = rule_or_macro,
+    rule_info = RuleInfo(
+        kind = rule_or_macro,
         executable = executable,
         test = test,
         implicit_targets = implicit_targets,
         providers = providers,
     )
+    return make_builder(rule_info)
 
 def get_rule_name(rule_or_macro):
     s = str(rule_or_macro)

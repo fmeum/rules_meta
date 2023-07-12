@@ -1,0 +1,6 @@
+load(":defs.bzl", "cc_asan_binary")
+
+cc_asan_binary(
+    name = "hello_world",
+    srcs = ["hello_world.cc"],
+)

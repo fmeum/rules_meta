@@ -1,16 +1,6 @@
 load(":utils.bzl", "is_bool", "is_label", "is_select", "is_string")
 
-def add_set_setting(builder, *, setting, value):
-    attr_name = get_attr_name(setting)
-    update_func = lambda _, attr: getattr(attr, attr_name)
-    builder = builder | {setting: update_func}
-
-def add_extend_setting(builder, *, setting, value):
-    attr_name = get_attr_name(setting)
-    update_func = lambda settings, attr: settings[setting] + getattr(attr, attr_name)
-    builder = builder | {setting: update_func}
-
-def get_attr_name(setting):
+def validate_and_get_attr_name(setting):
     if is_label(setting):
         # Trigger an early error if the label refers to an invalid repo name.
         setting.workspace_name
@@ -26,7 +16,7 @@ def get_attr_name(setting):
             fail("Use Label(...) rather than a string to refer to a custom build setting")
         return setting
     else:
-        fail("Expected Label or string, got: {} ({})".format(setting, type(setting)))
+        fail("Expected setting to be a Label or a string, got: {} ({})".format(repr(setting), type(setting)))
 
 def get_attr_type(value):
     if is_string(value):
@@ -74,9 +64,9 @@ def get_attr_type(value):
         return "string" + suffix
     if s[pos] == "-" or s[pos].isdigit():
         return "int" + suffix
-    if s.startswith("True", pos) and not s[pos + len("True")].isalnum():
+    if s.startswith("True", pos) and not s[pos + len("True")].isalnum() and not suffix:
         return "bool"
-    if s.startswith("False", pos) and not s[pos + len("False")].isalnum():
+    if s.startswith("False", pos) and not s[pos + len("False")].isalnum() and not suffix:
         return "bool"
 
     fail("Failed to determine type of: {}".format(s))
