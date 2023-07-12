@@ -12,7 +12,10 @@ def make_transitioning_alias(*, providers, transition, values):
         implementation = _make_transitioning_alias_impl(providers = providers),
         cfg = transition,
         attrs = settings_attrs | {
-            "exports": attr.label(mandatory = True),
+            "exports": attr.label(
+                allow_single_file = True,
+                mandatory = True,
+            ),
             "_allowlist_function_transition": attr.label(
                 default = "@bazel_tools//tools/allowlists/function_transition_allowlist",
             ),

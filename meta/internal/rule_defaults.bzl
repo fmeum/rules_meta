@@ -10,4 +10,5 @@ DEFAULT_PROVIDERS = [
 ]
 
 IMPLICIT_TARGETS = {
+    "cc_binary": [".dwp", ".stripped"],
 }
