@@ -27,13 +27,21 @@ DEFAULT_PROVIDERS = [
 
 IMPLICIT_TARGETS = {
     "cc_binary": [
-        ".dwp",
-        ".stripped",
+        "{}.dwp",
+        "{}.stripped",
     ],
     "java_binary": [
-        ".jar",
-        "-src.jar",
-        "_deploy.jar",
-        "_deploy-src.jar",
+        "{}.jar",
+        "{}-src.jar",
+        "{}_deploy.jar",
+        "{}_deploy-src.jar",
+    ],
+    "java_library": [
+        "lib{}.jar",
+        "lib{}-src.jar",
+    ],
+    "java_test": [
+        "{}.jar",
+        "{}_deploy.jar",
     ],
 }

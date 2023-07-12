@@ -4,6 +4,10 @@ load(":rule_defaults.bzl", "DEFAULT_PROVIDERS", "IMPLICIT_TARGETS")
 
 visibility(["//meta", "//tests/..."])
 
+# A globally unique string that we can use to validate that implicit target
+# patterns contain a single placeholder.
+_PATTERN_VALIDATION_MARKER = "with_cfg!-~+this string is pretty unique"
+
 def rule(
         rule_or_macro,
         *,
@@ -19,6 +23,11 @@ def rule(
         test = is_test(rule_name)
     if implicit_targets == None:
         implicit_targets = get_implicit_targets(rule_name)
+
+    # Validate implicit target patterns eagerly for better error messages.
+    for pattern in implicit_targets:
+        if pattern.format(_PATTERN_VALIDATION_MARKER).count(_PATTERN_VALIDATION_MARKER) != 1:
+            fail("Implicit target pattern must contain exactly one '{}' placeholder: " + pattern)
 
     rule_info = RuleInfo(
         kind = rule_or_macro,

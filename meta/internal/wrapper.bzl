@@ -118,9 +118,20 @@ def _wrapper(*, name, kwargs, rule_info, frontend, transitioning_alias, values):
     )
 
     for implicit_target in rule_info.implicit_targets:
+        sub_name = "{dirname}{separator}{sub_basename}".format(
+            dirname = dirname,
+            separator = separator,
+            sub_basename = implicit_target.format(basename),
+        )
+        original_sub_name = "{dirname}{separator}{basename}_/{sub_basename}".format(
+            dirname = dirname,
+            separator = separator,
+            basename = basename,
+            sub_basename = implicit_target.format(basename),
+        )
         transitioning_alias(
-            name = name + implicit_target,
-            exports = ":" + original_name + implicit_target,
+            name = sub_name,
+            exports = ":" + original_sub_name,
             tags = tags_with_manual,
             visibility = visibility,
             **(value_attrs | common_attrs)
