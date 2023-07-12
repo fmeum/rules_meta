@@ -52,8 +52,6 @@ def _build(*, rule_info, values, operations):
 
 def _extend(setting, value, *, rule_info, values, operations):
     validate_and_get_attr_name(setting)
-    if not is_list(value):
-        fail("Expected value to be a list, got: %s (%s)".format(repr(value), type(value)))
     return make_builder(
         rule_info,
         values = values | {setting: value},

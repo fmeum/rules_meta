@@ -10,10 +10,10 @@ def make_transitioning_alias(*, providers, transition, values):
     }
     return rule(
         implementation = _make_transitioning_alias_impl(providers = providers),
-        cfg = transition,
         attrs = settings_attrs | {
             "exports": attr.label(
                 allow_single_file = True,
+                cfg = transition,
                 mandatory = True,
             ),
             "_allowlist_function_transition": attr.label(
@@ -26,7 +26,8 @@ def _make_transitioning_alias_impl(*, providers):
     return lambda ctx: _transitioning_alias_base_impl(ctx, providers = providers)
 
 def _transitioning_alias_base_impl(ctx, *, providers):
-    target = ctx.attr.exports
+    # The transition on exports is a split transition with a single outgoing configuration.
+    target = ctx.attr.exports[0]
     return [
         DefaultInfo(
             # Filter out executable to prevent an error since this rule doesn't

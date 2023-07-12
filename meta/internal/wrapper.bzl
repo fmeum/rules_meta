@@ -27,8 +27,8 @@ _COMMON_ATTRS = [
 ]
 
 # Attributes common to all executable and test rules.
-# These attributes are applied to the original target and the frontend if the
-# original target is executable.
+# These attributes are applied to the original target and the frontend if the original target is
+# executable.
 # env and env_inherit are covered by the forwarded RunEnvironmentInfo instead.
 _EXECUTABLE_ATTRS = [
     # keep sorted
@@ -36,8 +36,8 @@ _EXECUTABLE_ATTRS = [
 ]
 
 # Attributes common to all test rules.
-# These attributes are applied to the original target and the frontend if the
-# original target is a test.
+# These attributes are applied to the original target and the frontend if the original target is a
+# test.
 # env and env_inherit are covered by the forwarded RunEnvironmentInfo instead.
 _TEST_ATTRS = [
     # keep sorted
@@ -64,9 +64,8 @@ def _wrapper(*, name, kwargs, rule_info, frontend, transitioning_alias, values):
         for attr in _COMMON_ATTRS
     }
 
-    # Due to --trim_test_configuration, all targets that depend on tests (such
-    # as our transitioning_alias) must be marked as testonly to avoid action
-    # conflicts.
+    # Due to --trim_test_configuration, all targets that depend on tests (such as our
+    # transitioning_alias) must be marked as testonly to avoid action conflicts.
     common_attrs["testonly"] = kwargs.pop("testonly", True if rule_info.test else None)
 
     if rule_info.test:

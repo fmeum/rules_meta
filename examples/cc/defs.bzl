@@ -5,5 +5,5 @@ cc_asan_binary, _cc_asan_binary = with_cfg.rule(
     executable = False,
 ).extend(
     "copt",
-    ["-DNAME=\"with_cfg\""],
+    select({"//conditions:default": ["-DNAME=\"with_cfg\""]}),
 ).build()
