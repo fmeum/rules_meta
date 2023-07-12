@@ -52,6 +52,8 @@ def _build(*, rule_info, values, operations):
 
 def _extend(setting, value, *, rule_info, values, operations):
     validate_and_get_attr_name(setting)
+    if setting in values:
+        fail("Cannot extend setting '{}' because it has already been added to this builder".format(setting))
     return make_builder(
         rule_info,
         values = values | {setting: value},
@@ -60,6 +62,8 @@ def _extend(setting, value, *, rule_info, values, operations):
 
 def _set(setting, value, *, rule_info, values, operations):
     validate_and_get_attr_name(setting)
+    if setting in values:
+        fail("Cannot set setting '{}' because it has already been added to this builder".format(setting))
     return make_builder(
         rule_info,
         values = values | {setting: value},
