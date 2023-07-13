@@ -13,7 +13,7 @@ def rule(
         *,
         executable = None,
         implicit_targets = None,
-        providers = DEFAULT_PROVIDERS):
+        extra_providers = []):
     rule_name = get_rule_name(rule_or_macro)
 
     if executable == None:
@@ -33,7 +33,7 @@ def rule(
         # do not allow overriding this.
         test = is_test(rule_name),
         implicit_targets = implicit_targets,
-        providers = providers,
+        providers = DEFAULT_PROVIDERS + extra_providers,
     )
     return make_builder(rule_info)
 
