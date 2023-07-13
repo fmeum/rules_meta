@@ -9,15 +9,19 @@ visibility(["//meta", "//tests/..."])
 _PATTERN_VALIDATION_MARKER = "with_cfg!-~+this string is pretty unique"
 
 def rule(
-        rule_or_macro,
+        kind,
         *,
         executable = None,
         implicit_targets = None,
         extra_providers = []):
-    rule_name = get_rule_name(rule_or_macro)
+    rule_name = get_rule_name(kind)
 
     if executable == None:
         executable = is_executable(rule_name)
+
+    # Bazel enforces that a rule is a test rule if and only if its name ends with "_test", so we
+    # do not allow overriding this.
+    test = is_test(rule_name)
     if implicit_targets == None:
         implicit_targets = get_implicit_targets(rule_name)
 
@@ -27,13 +31,12 @@ def rule(
             fail("Implicit target pattern must contain exactly one '{}' placeholder: " + pattern)
 
     rule_info = RuleInfo(
-        kind = rule_or_macro,
+        kind = kind,
         executable = executable,
-        # Bazel enforces that a rule is a test rule if and only if its name ends with "_test", so we
-        # do not allow overriding this.
-        test = is_test(rule_name),
+        test = test,
         implicit_targets = implicit_targets,
         providers = DEFAULT_PROVIDERS + extra_providers,
+        native = _is_native(kind),
     )
     return make_builder(rule_info)
 
@@ -53,6 +56,9 @@ def is_executable(rule_name):
 
 def is_test(rule_name):
     return rule_name.endswith("_test")
+
+def _is_native(rule_or_macro):
+    return str(rule_or_macro).startswith("<built-in rule ")
 
 def get_implicit_targets(rule_name):
     return IMPLICIT_TARGETS.get(rule_name, [])

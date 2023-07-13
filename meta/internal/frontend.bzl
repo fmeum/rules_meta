@@ -24,7 +24,10 @@ def _frontend_impl(ctx):
     data_runfiles = ctx.runfiles([executable]).merge(target[DefaultInfo].data_runfiles)
     default_runfiles = ctx.runfiles([executable]).merge(target[DefaultInfo].default_runfiles)
 
-    run_environment_info = target[FrontendInfo].run_environment_info
+    run_environment_info = target[FrontendInfo].run_environment_info or RunEnvironmentInfo(
+        environment = ctx.attr.env,
+        inherited_environment = ctx.attr.env_inherit,
+    )
     return [
         DefaultInfo(
             executable = executable,
@@ -41,6 +44,8 @@ def _frontend_impl(ctx):
     )
 
 _frontend_attrs = {
+    "env": attr.string_dict(),
+    "env_inherit": attr.string_list(),
     "exports": attr.label(
         mandatory = True,
         providers = [FrontendInfo],

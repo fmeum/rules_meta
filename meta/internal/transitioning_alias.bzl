@@ -12,7 +12,7 @@ def make_transitioning_alias(*, providers, transition, values):
         implementation = _make_transitioning_alias_impl(providers = providers),
         attrs = settings_attrs | {
             "exports": attr.label(
-                allow_single_file = True,
+                allow_files = True,
                 cfg = transition,
                 mandatory = True,
             ),

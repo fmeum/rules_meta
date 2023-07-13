@@ -81,6 +81,12 @@ def _wrapper(*, name, kwargs, rule_info, frontend, transitioning_alias, values):
     else:
         extra_attrs = {}
 
+    # Native rules use magic "env" and "env_inherit" attributes to set environment variables. We
+    # have to implement these attributes manually as they aren't forwarded via RunEnvironmentInfo.
+    if rule_info.native and (rule_info.executable or rule_info.test):
+        extra_attrs["env"] = kwargs.pop("env", None)
+        extra_attrs["env_inherit"] = kwargs.pop("env_inherit", None)
+
     dirname, separator, basename = name.rpartition("/")
     original_name = "{dirname}{separator}{basename}_/{basename}".format(
         dirname = dirname,
