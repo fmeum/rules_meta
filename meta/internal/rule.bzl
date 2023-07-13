@@ -12,15 +12,12 @@ def rule(
         rule_or_macro,
         *,
         executable = None,
-        test = None,
         implicit_targets = None,
         providers = DEFAULT_PROVIDERS):
     rule_name = get_rule_name(rule_or_macro)
 
     if executable == None:
         executable = is_executable(rule_name)
-    if test == None:
-        test = is_test(rule_name)
     if implicit_targets == None:
         implicit_targets = get_implicit_targets(rule_name)
 
@@ -32,7 +29,9 @@ def rule(
     rule_info = RuleInfo(
         kind = rule_or_macro,
         executable = executable,
-        test = test,
+        # Bazel enforces that a rule is a test rule if and only if its name ends with "_test", so we
+        # do not allow overriding this.
+        test = is_test(rule_name),
         implicit_targets = implicit_targets,
         providers = providers,
     )
