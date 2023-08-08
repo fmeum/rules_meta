@@ -3,6 +3,4 @@ load("//meta/internal:rule.bzl", "rule")
 
 meta = _meta
 
-with_cfg = struct(
-    rule = rule,
-)
+with_cfg = rule
